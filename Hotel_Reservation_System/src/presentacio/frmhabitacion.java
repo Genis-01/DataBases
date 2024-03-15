@@ -4,6 +4,12 @@
  */
 package presentacio;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+import datos.vroom;
+import logica.froom;
+
 /**
  *
  * @author ciclesgs
@@ -17,6 +23,67 @@ public class frmhabitacion extends javax.swing.JFrame {
         initComponents();
     }
 
+    private String accion="save";
+
+    void ocultar_columnas (){
+        tablelist.getColumnModel().getColumn(0).setMaxWidth(0);
+        tablelist.getColumnModel().getColumn(0).setMinWidth(0);
+        tablelist.getColumnModel().getColumn(0).setPreferredWidth(0);
+
+    }
+
+    void inhabilitar (){
+        txtnumber.setVisible(false);
+        cbcapacity.setEnabled(false);
+        txtprice.setEnabled(false);
+
+        btsave.setEnabled(false);
+        btcancel.setEnabled(false);
+        btdelete.setEnabled(false);
+
+        txtnumber.setText("");
+        txtprice.setText("");
+        
+    }
+
+    void habilitar (){
+        txtnumber.setVisible(false);
+
+        cbcapacity.setEnabled(true);
+        txtprice.setEnabled(true);
+
+        btsave.setEnabled(true);
+        btcancel.setEnabled(true);
+        btdelete.setEnabled(true);
+
+        txtnumber.setText("");
+        txtprice.setText("");
+        
+    }
+
+
+    void mostrar(String buscar){
+        try {
+            DefaultTableModel modelo;
+            froom func = new froom();
+            modelo =func.mostrar(buscar);
+
+            tablelist.setModel(modelo);
+            ocultar_columnas();
+            lbltotal.setText("total registered: " + Integer.toString(func.totalregistros));
+
+            
+            
+
+        } catch (Exception e) {
+            JOptionPane.showConfirmDialog(rootPane, e);
+        }
+    }
+    
+    
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,8 +110,9 @@ public class frmhabitacion extends javax.swing.JFrame {
         btdelete = new javax.swing.JButton();
         btexit = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablelist = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
+        lbltotal = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,8 +132,18 @@ public class frmhabitacion extends javax.swing.JFrame {
         jLabel2.setText("number");
 
         btnew.setText("New");
+        btnew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnewActionPerformed(evt);
+            }
+        });
 
         btsave.setText("Save");
+        btsave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btsaveActionPerformed(evt);
+            }
+        });
 
         btcancel.setText("Cancel");
         btcancel.addActionListener(new java.awt.event.ActionListener() {
@@ -151,7 +229,7 @@ public class frmhabitacion extends javax.swing.JFrame {
 
         btexit.setText("Exit");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablelist.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -162,9 +240,11 @@ public class frmhabitacion extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablelist);
 
         jLabel4.setText("Search");
+
+        lbltotal.setText("jLabel3");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -187,6 +267,10 @@ public class frmhabitacion extends javax.swing.JFrame {
                         .addGap(38, 38, 38)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lbltotal)
+                .addGap(124, 124, 124))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,7 +284,9 @@ public class frmhabitacion extends javax.swing.JFrame {
                     .addComponent(jLabel4))
                 .addGap(57, 57, 57)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(76, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lbltotal)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -249,6 +335,50 @@ public class frmhabitacion extends javax.swing.JFrame {
     private void cbcapacityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbcapacityActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbcapacityActionPerformed
+
+    private void btnewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnewActionPerformed
+        // uwu
+        habilitar();
+        btsave.setText("Save");
+        accion="Save";
+        
+
+    }//GEN-LAST:event_btnewActionPerformed
+
+    private void btsaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btsaveActionPerformed
+        //uwu2
+        if (txtnumber.getText().length() == 0) {
+            JOptionPane.showConfirmDialog(rootPane, "Please, insert room number.");
+            txtnumber.requestFocus();
+            return;
+        }
+        if (txtprice.getText().length() == 0) {
+            JOptionPane.showConfirmDialog(rootPane, "Please, insert a daily price.");
+            txtprice.requestFocus();
+            return;
+        }
+
+        vroom dts = new vroom();
+        froom func = new froom();
+
+        dts.setIdroom(txtnumber.getText());
+
+        dts.setPrice(Double.parseDouble(txtprice.getText()));
+
+        if (accion.equals("save")) {
+            if (func.insertar(dts)) {
+                JOptionPane.showMessageDialog(rootPane, "The room was successfully registered.");
+                mostrar("");
+            }
+        } else if (accion.equals("edit")) {
+            dts.setIdroom(Integer.parseInt(txtnumber.getText()));
+            if (func.insertar(dts)) {
+                JOptionPane.showMessageDialog(rootPane, "The room was successfully registered.");
+                mostrar("");
+            }
+        }
+
+    }//GEN-LAST:event_btsaveActionPerformed
 
     /**
      * @param args the command line arguments
@@ -301,7 +431,8 @@ public class frmhabitacion extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lbltotal;
+    private javax.swing.JTable tablelist;
     private javax.swing.JTextField txtnumber;
     private javax.swing.JTextField txtprice;
     private javax.swing.JTextField txtsearch;
