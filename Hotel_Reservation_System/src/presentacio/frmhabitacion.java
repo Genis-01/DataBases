@@ -117,7 +117,7 @@ public class frmhabitacion extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("habitacion");
+        jLabel1.setText("room");
 
         jPanel1.setBackground(new java.awt.Color(204, 153, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "room registration", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(0, 0, 153))); // NOI18N
@@ -226,6 +226,11 @@ public class frmhabitacion extends javax.swing.JFrame {
         btsearch.setText("Search");
 
         btdelete.setText("Delete");
+        btdelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btdeleteActionPerformed(evt);
+            }
+        });
 
         btexit.setText("Exit");
 
@@ -371,14 +376,18 @@ public class frmhabitacion extends javax.swing.JFrame {
                 mostrar("");
             }
         } else if (accion.equals("edit")) {
-            dts.setIdroom(Integer.parseInt(txtnumber.getText()));
+            dts.setIdroom(txtnumber.getText());
             if (func.insertar(dts)) {
                 JOptionPane.showMessageDialog(rootPane, "The room was successfully registered.");
                 mostrar("");
-            }
+            }  
         }
 
     }//GEN-LAST:event_btsaveActionPerformed
+
+    private void btdeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btdeleteActionPerformed
+        
+    }//GEN-LAST:event_btdeleteActionPerformed
 
     /**
      * @param args the command line arguments
