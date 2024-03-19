@@ -3,6 +3,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,9 +14,8 @@ public class MysqlFunctions {
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "";
 
-    public List<Room> reedrooms() {
+    public List<Room> reedRooms() {
 
-        
         List<Room> rooms = new ArrayList<Room>();
         try {
             // Establish database connection
@@ -33,11 +33,76 @@ public class MysqlFunctions {
 
                 rooms.add(new Room(room_id, room_number, room_type, capacity));
 
-                
             }
             // Close the connection
             connection.close();
             return rooms;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    public List<Reservation> reedReservations() {
+
+        List<Reservation> reservations = new ArrayList<Reservation>();
+        try {
+            // Establish database connection
+            Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+
+            String insertQuery = "SELECT * FROM reservations";
+            PreparedStatement stmt = connection.prepareStatement(insertQuery);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                int reservationId = rs.getInt("reservation_id");
+                int roomId = rs.getInt("room_id");
+                String guestName = rs.getString("guest_name");
+                String checkInDate = rs.getString("check_in_date");
+                String checkOutDate = rs.getString("check_out_date");
+
+
+                reservations.add(new Reservation(reservationId, roomId, guestName, checkInDate, checkOutDate));
+
+            }
+            // Close the connection
+            connection.close();
+            return reservations;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    public List<Reservation> reedReservationsSerch(String name) {
+
+        List<Reservation> reservations = new ArrayList<Reservation>();
+        try {
+            // Establish database connection
+            Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+
+            String insertQuery = "SELECT * FROM reservations WHERE guest_name = '" + name + "'";
+            PreparedStatement stmt = connection.prepareStatement(insertQuery);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                int reservationId = rs.getInt("reservation_id");
+                int roomId = rs.getInt("room_id");
+                String guestName = rs.getString("guest_name");
+                String checkInDate = rs.getString("check_in_date");
+                String checkOutDate = rs.getString("check_out_date");
+
+
+                reservations.add(new Reservation(reservationId, roomId, guestName, checkInDate, checkOutDate));
+
+            }
+            // Close the connection
+            connection.close();
+            return reservations;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -68,4 +133,5 @@ public class MysqlFunctions {
         }
 
     }
+    
 }
