@@ -6,13 +6,15 @@ public class Room {
     private String room_number;
     private String room_type;
     private int capacity;
+    private Double price;
 
     // Constructors
-    public Room(int room_id, String room_number, String room_type, int capacity) {
+    public Room(int room_id, String room_number, String room_type, int capacity, Double price) {
         this.room_id = room_id;
         this.room_number = room_number;
         this.room_type = room_type;
         this.capacity = capacity;
+        this.price = price;
     }
 
     public Room(){
@@ -53,7 +55,7 @@ public class Room {
     }
 
     public Object [] toObject(){
-        return new Object []{this.room_id, this.room_number, this.room_type,this.capacity};
+        return new Object []{this.room_id, this.room_number, this.room_type,this.capacity, this.price};
     }
 
     public Object [][] roomsToTable(List<Room> rooms){
@@ -69,7 +71,7 @@ public class Room {
     @Override
     public String toString() {
         
-        return "ID: " + room_id + ", room number: " + room_number + ", room type: " + room_type + ", capacity; "+ capacity;
+        return "ID: " + room_id + ", room number: " + room_number + ", room type: " + room_type + ", capacity; "+ capacity + ", price: " + price;
     }
     
 }

@@ -30,8 +30,9 @@ public class MysqlFunctions {
                 String room_number = rs.getString("room_number");
                 String room_type = rs.getString("room_type");
                 int capacity = rs.getInt("capacity");
+                Double price = rs.getDouble("prices");
 
-                rooms.add(new Room(room_id, room_number, room_type, capacity));
+                rooms.add(new Room(room_id, room_number, room_type, capacity, price));
 
             }
             // Close the connection
@@ -125,6 +126,63 @@ public class MysqlFunctions {
                 preparedStatement.setString(4, checkOutDate);
                 preparedStatement.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Reservation added successfully!");
+            }
+            // Close the connection
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+    
+    public void editreservation(int reservationId, int roomId, String guestName, String checkInDate, String checkOutDate) {
+
+        try {
+            // Establish database connection
+            Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+
+            // Insert reservation
+            String insertQuery = "UPDATE reservations " +
+                                 "SET room_id = ?, " +
+                                 "guest_name = ?, " +
+                                 "check_in_date = ?, " +
+                                 "check_out_date = ?" +
+                                 "WHERE reservation_id = ?;";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+                
+                preparedStatement.setInt(1, roomId);
+                preparedStatement.setString(2, guestName);
+                preparedStatement.setString(3, checkInDate);
+                preparedStatement.setString(4, checkOutDate);
+                preparedStatement.setInt(5, reservationId);
+                System.out.println(preparedStatement.toString());
+                preparedStatement.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Reservation edited successfully!");
+            }
+            // Close the connection
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+    
+    public void delatereservation(int reservationId) {
+
+        try {
+            // Establish database connection
+            Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+
+            // Insert reservation
+            String insertQuery = "DELETE FROM reservations WHERE reservation_id = ?";
+;
+            try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+                
+                
+                preparedStatement.setInt(1, reservationId);
+                System.out.println(preparedStatement.toString());
+                preparedStatement.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Reservation delated successfully!");
             }
             // Close the connection
             connection.close();

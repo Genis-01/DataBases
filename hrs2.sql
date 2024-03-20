@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-03-2024 a las 20:08:33
+-- Tiempo de generación: 20-03-2024 a las 20:36:56
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -35,15 +35,6 @@ CREATE TABLE `reservations` (
   `check_out_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `reservations`
---
-
-INSERT INTO `reservations` (`reservation_id`, `room_id`, `guest_name`, `check_in_date`, `check_out_date`) VALUES
-(2, 1, 'John Doe', '2024-03-20', '2024-03-25'),
-(3, 2, 'julen', '2024-04-19', '2024-04-26'),
-(4, 3, 'paco', '2024-05-11', '2024-05-13');
-
 -- --------------------------------------------------------
 
 --
@@ -54,24 +45,25 @@ CREATE TABLE `rooms` (
   `room_id` int(11) NOT NULL,
   `room_number` varchar(10) NOT NULL,
   `room_type` varchar(50) DEFAULT NULL,
-  `capacity` int(11) DEFAULT NULL
+  `capacity` int(11) DEFAULT NULL,
+  `prices` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `rooms`
 --
 
-INSERT INTO `rooms` (`room_id`, `room_number`, `room_type`, `capacity`) VALUES
-(1, 'R101', 'Standard', 2),
-(2, 'R102', 'Deluxe', 3),
-(3, 'R103', 'Suite', 4),
-(4, 'R104', 'Family', 5),
-(5, 'R105', 'Penthouse', 6),
-(6, 'R106', 'Executive', 2),
-(7, 'R107', 'Ocean View', 3),
-(8, 'R108', 'Accessible', 2),
-(9, 'R109', 'Honeymoon', 2),
-(10, 'R110', 'VIP', 2);
+INSERT INTO `rooms` (`room_id`, `room_number`, `room_type`, `capacity`, `prices`) VALUES
+(1, 'R101', 'Standard', 2, 100.00),
+(2, 'R102', 'Deluxe', 3, 150.00),
+(3, 'R103', 'Suite', 4, 200.00),
+(4, 'R104', 'Family', 5, 250.00),
+(5, 'R105', 'Penthouse', 6, 300.00),
+(6, 'R106', 'Executive', 2, 120.00),
+(7, 'R107', 'Ocean View', 3, 180.00),
+(8, 'R108', 'Accessible', 2, 110.00),
+(9, 'R109', 'Honeymoon', 2, 130.00),
+(10, 'R110', 'VIP', 2, 140.00);
 
 --
 -- Índices para tablas volcadas
@@ -98,17 +90,7 @@ ALTER TABLE `rooms`
 -- AUTO_INCREMENT de la tabla `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `reservations`
---
-ALTER TABLE `reservations`
-  ADD CONSTRAINT `reservations_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`room_id`);
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
