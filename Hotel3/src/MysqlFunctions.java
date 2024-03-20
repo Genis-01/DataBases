@@ -155,7 +155,6 @@ public class MysqlFunctions {
                 preparedStatement.setString(3, checkInDate);
                 preparedStatement.setString(4, checkOutDate);
                 preparedStatement.setInt(5, reservationId);
-                System.out.println(preparedStatement.toString());
                 preparedStatement.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Reservation edited successfully!");
             }
@@ -180,7 +179,6 @@ public class MysqlFunctions {
                 
                 
                 preparedStatement.setInt(1, reservationId);
-                System.out.println(preparedStatement.toString());
                 preparedStatement.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Reservation delated successfully!");
             }
